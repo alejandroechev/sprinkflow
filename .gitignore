@@ -1,0 +1,6 @@
+screenshots/
+node_modules/
+dist/
+test-results/
+*.tsbuildinfo
+.vercel

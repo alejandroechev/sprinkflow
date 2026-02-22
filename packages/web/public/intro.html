@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SprinkFlow — Introduction to Fire Sprinkler Hydraulics</title>
+<style>
+  :root {
+    --bg: #ffffff;
+    --fg: #1a1a2e;
+    --muted: #555;
+    --accent: #c0392b;
+    --accent-light: #e74c3c;
+    --card-bg: #f8f8fa;
+    --card-border: #e0e0e4;
+    --code-bg: #f0f0f4;
+    --hero-bg: linear-gradient(135deg, #1a1a2e 0%, #2d2d44 100%);
+    --hero-fg: #f0f0f0;
+    --link: #2563eb;
+    --table-stripe: #f4f4f8;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #1a1a2e;
+      --fg: #e0e0e8;
+      --muted: #aaa;
+      --accent: #e74c3c;
+      --accent-light: #ff6b6b;
+      --card-bg: #24243a;
+      --card-border: #3a3a52;
+      --code-bg: #2a2a42;
+      --hero-bg: linear-gradient(135deg, #0d0d1a 0%, #1a1a2e 100%);
+      --hero-fg: #e8e8f0;
+      --link: #60a5fa;
+      --table-stripe: #22223a;
+    }
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background: var(--bg);
+    color: var(--fg);
+    line-height: 1.7;
+    font-size: 16px;
+  }
+  a { color: var(--link); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  .back-link {
+    display: inline-block;
+    padding: 12px 24px;
+    font-size: 14px;
+    color: var(--muted);
+  }
+  .hero {
+    background: var(--hero-bg);
+    color: var(--hero-fg);
+    text-align: center;
+    padding: 64px 24px 56px;
+  }
+  .hero h1 { font-size: 48px; font-weight: 700; letter-spacing: -1px; }
+  .hero .tagline { font-size: 20px; margin-top: 8px; opacity: 0.85; }
+  .hero .version { font-size: 13px; margin-top: 12px; opacity: 0.5; }
+  .container { max-width: 800px; margin: 0 auto; padding: 40px 24px 80px; }
+  h2 {
+    font-size: 26px;
+    font-weight: 700;
+    margin: 48px 0 16px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--accent);
+    color: var(--accent);
+  }
+  h3 { font-size: 18px; font-weight: 600; margin: 28px 0 10px; }
+  p { margin: 12px 0; }
+  ul, ol { margin: 12px 0 12px 24px; }
+  li { margin: 4px 0; }
+  code {
+    font-family: "Cascadia Code", "Fira Code", "Consolas", monospace;
+    background: var(--code-bg);
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 14px;
+  }
+  .formula-box {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-left: 4px solid var(--accent);
+    padding: 16px 20px;
+    margin: 16px 0;
+    border-radius: 6px;
+    font-family: "Cascadia Code", "Fira Code", "Consolas", monospace;
+    font-size: 15px;
+    line-height: 1.8;
+    overflow-x: auto;
+  }
+  .info-card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 8px;
+    padding: 20px 24px;
+    margin: 16px 0;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 16px 0;
+    font-size: 15px;
+  }
+  th, td {
+    text-align: left;
+    padding: 10px 14px;
+    border: 1px solid var(--card-border);
+  }
+  th { background: var(--card-bg); font-weight: 600; }
+  tr:nth-child(even) td { background: var(--table-stripe); }
+  .step-list { counter-reset: steps; list-style: none; margin-left: 0; }
+  .step-list li {
+    counter-increment: steps;
+    padding: 12px 16px 12px 52px;
+    position: relative;
+    margin: 8px 0;
+    background: var(--card-bg);
+    border-radius: 6px;
+    border: 1px solid var(--card-border);
+  }
+  .step-list li::before {
+    content: counter(steps);
+    position: absolute;
+    left: 16px;
+    top: 12px;
+    width: 26px;
+    height: 26px;
+    background: var(--accent);
+    color: #fff;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 26px;
+    font-size: 13px;
+    font-weight: 700;
+  }
+  dl { margin: 12px 0; }
+  dt { font-weight: 700; margin-top: 16px; color: var(--accent); }
+  dd { margin: 4px 0 0 20px; }
+  .toc { list-style: none; margin: 0; padding: 0; }
+  .toc li { margin: 6px 0; }
+  .toc a { font-size: 15px; }
+  footer {
+    text-align: center;
+    padding: 32px 24px;
+    font-size: 13px;
+    color: var(--muted);
+    border-top: 1px solid var(--card-border);
+  }
+</style>
+</head>
+<body>
+
+<a class="back-link" href="/">← Back to SprinkFlow</a>
+
+<div class="hero">
+  <h1>🔥 SprinkFlow</h1>
+  <div class="tagline">Fire Sprinkler Hydraulic Calculator</div>
+  <div class="version">Free &amp; open-source — runs entirely in your browser</div>
+</div>
+
+<div class="container">
+
+<h2>Table of Contents</h2>
+<ul class="toc">
+  <li><a href="#what-are-sprinklers">1. What are Fire Sprinkler Systems?</a></li>
+  <li><a href="#nfpa13">2. NFPA 13 Standard</a></li>
+  <li><a href="#hazen-williams">3. Hazen-Williams Equation</a></li>
+  <li><a href="#sprinkler-discharge">4. Sprinkler Discharge &amp; K-Factors</a></li>
+  <li><a href="#pipe-sizing">5. Pipe Sizing</a></li>
+  <li><a href="#hydraulic-calc">6. Hydraulic Calculation Method</a></li>
+  <li><a href="#supply-demand">7. Supply vs Demand</a></li>
+  <li><a href="#hose-stream">8. Hose Stream Allowance</a></li>
+  <li><a href="#how-to-use">9. How to Use SprinkFlow</a></li>
+  <li><a href="#glossary">10. Glossary</a></li>
+  <li><a href="#references">11. References</a></li>
+</ul>
+
+<!-- 1. What are Fire Sprinkler Systems? -->
+<h2 id="what-are-sprinklers">1. What are Fire Sprinkler Systems?</h2>
+
+<p>Automatic fire sprinkler systems are the most effective and reliable method of controlling or extinguishing building fires. They consist of a network of pipes connected to a water supply, with individual sprinkler heads positioned throughout a building. When a fire occurs, the heat activates only the sprinklers closest to the fire, discharging water directly onto the flames.</p>
+
+<h3>How Sprinklers Activate</h3>
+<p>Each sprinkler head contains a heat-sensitive element that holds a cap (or seal) in place:</p>
+<ul>
+  <li><strong>Fusible link</strong> — A metal alloy element that melts at a specific temperature (typically 135–286°F), releasing the cap and allowing water to flow.</li>
+  <li><strong>Glass bulb</strong> — A small glass vial filled with a glycerin-based liquid. Heat causes the liquid to expand, shattering the bulb. Color-coded by activation temperature (orange = 135°F, red = 155°F, etc.).</li>
+</ul>
+
+<h3>System Types</h3>
+<div class="info-card">
+  <p><strong>Wet pipe systems</strong> — Pipes are filled with pressurized water at all times. When a sprinkler activates, water discharges immediately. Most common and most reliable type.</p>
+  <p><strong>Dry pipe systems</strong> — Pipes are filled with pressurized air or nitrogen. When a sprinkler activates, the air pressure drops, opening a dry-pipe valve that admits water. Used in spaces subject to freezing.</p>
+</div>
+
+<h3>Why Hydraulic Calculations Matter</h3>
+<p>Fire sprinkler systems must deliver a specific <em>density</em> of water (GPM per square foot) over a defined <em>area of operation</em> to control a fire. Hydraulic calculations verify that the water supply can provide enough pressure and flow to all operating sprinklers simultaneously. Under-designed systems may fail during a fire; over-designed systems waste money on oversized piping.</p>
+
+<!-- 2. NFPA 13 -->
+<h2 id="nfpa13">2. NFPA 13 Standard</h2>
+
+<p>NFPA 13 — <em>Standard for the Installation of Sprinkler Systems</em> — is the governing standard for fire sprinkler design in the United States and many other countries. It defines the rules for sprinkler placement, pipe sizing, water supply requirements, and hydraulic calculation methods.</p>
+
+<h3>Hazard Classifications</h3>
+<p>NFPA 13 classifies building occupancies by the severity and quantity of combustible contents, which determines the required water delivery:</p>
+
+<table>
+  <thead>
+    <tr><th>Classification</th><th>Description</th><th>Typical Density</th><th>Area of Operation</th></tr>
+  </thead>
+  <tbody>
+    <tr><td><strong>Light Hazard</strong></td><td>Offices, churches, hospitals</td><td>0.10 GPM/ft²</td><td>1,500 ft²</td></tr>
+    <tr><td><strong>Ordinary Hazard Group 1 (OH-1)</strong></td><td>Parking garages, laundries, restaurants</td><td>0.15 GPM/ft²</td><td>1,500 ft²</td></tr>
+    <tr><td><strong>Ordinary Hazard Group 2 (OH-2)</strong></td><td>Mercantile, manufacturing, warehouses (low)</td><td>0.20 GPM/ft²</td><td>1,500 ft²</td></tr>
+    <tr><td><strong>Extra Hazard Group 1 (EH-1)</strong></td><td>Aircraft hangars, saw mills</td><td>0.30 GPM/ft²</td><td>2,500 ft²</td></tr>
+    <tr><td><strong>Extra Hazard Group 2 (EH-2)</strong></td><td>Flammable liquid spraying, plastics processing</td><td>0.40 GPM/ft²</td><td>2,500 ft²</td></tr>
+  </tbody>
+</table>
+
+<h3>Density/Area Design Criteria</h3>
+<p>The required flow is determined by the density/area method: multiply the design density (GPM/ft²) by the area of sprinkler operation (ft²) to get the minimum system flow demand. The most hydraulically remote area is then calculated to determine the total pressure required at the water supply.</p>
+
+<!-- 3. Hazen-Williams -->
+<h2 id="hazen-williams">3. Hazen-Williams Equation</h2>
+
+<p>The Hazen-Williams formula calculates friction loss (pressure drop per foot of pipe) as water flows through piping. It is the standard method specified by NFPA 13 for fire sprinkler hydraulic calculations.</p>
+
+<div class="formula-box">
+  h<sub>f</sub> = 4.52 × Q<sup>1.85</sup> / (C<sup>1.85</sup> × d<sup>4.87</sup>) &nbsp; [psi/ft]
+</div>
+
+<p>Where:</p>
+<ul>
+  <li><strong>h<sub>f</sub></strong> — friction loss in psi per foot of pipe</li>
+  <li><strong>Q</strong> — flow rate in gallons per minute (GPM)</li>
+  <li><strong>C</strong> — Hazen-Williams roughness coefficient</li>
+  <li><strong>d</strong> — internal diameter of the pipe in inches</li>
+</ul>
+
+<h3>C-Factor Values</h3>
+<p>The C-factor represents the smoothness of the pipe interior. Higher values mean smoother pipe and less friction:</p>
+
+<table>
+  <thead>
+    <tr><th>Pipe Material</th><th>C-Factor</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Black steel (Schedule 40)</td><td>120</td></tr>
+    <tr><td>Galvanized steel</td><td>120</td></tr>
+    <tr><td>Copper tube</td><td>150</td></tr>
+    <tr><td>CPVC</td><td>150</td></tr>
+    <tr><td>Ductile iron (cement lined)</td><td>140</td></tr>
+    <tr><td>Cast iron (unlined)</td><td>100</td></tr>
+  </tbody>
+</table>
+
+<!-- 4. Sprinkler Discharge -->
+<h2 id="sprinkler-discharge">4. Sprinkler Discharge &amp; K-Factors</h2>
+
+<p>The flow from an individual sprinkler head is governed by the orifice equation:</p>
+
+<div class="formula-box">
+  Q = K × √P &nbsp; [GPM]
+</div>
+
+<p>Where:</p>
+<ul>
+  <li><strong>Q</strong> — discharge flow rate in GPM</li>
+  <li><strong>K</strong> — K-factor (discharge coefficient), determined by the orifice size</li>
+  <li><strong>P</strong> — pressure at the sprinkler head in psi</li>
+</ul>
+
+<h3>Common K-Factors</h3>
+<table>
+  <thead>
+    <tr><th>K-Factor</th><th>Nominal Orifice</th><th>Typical Use</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>2.8</td><td>¼″ (residential)</td><td>Small residential heads</td></tr>
+    <tr><td>5.6</td><td>½″ (standard)</td><td>Most common, light &amp; ordinary hazard</td></tr>
+    <tr><td>8.0</td><td>¾″ (large orifice)</td><td>Higher density applications</td></tr>
+    <tr><td>11.2</td><td>Extra-large orifice</td><td>Extra hazard, storage</td></tr>
+    <tr><td>14.0</td><td>ESFR</td><td>Early suppression, fast response (warehouses)</td></tr>
+    <tr><td>25.2</td><td>Large ESFR</td><td>High-piled storage</td></tr>
+  </tbody>
+</table>
+
+<h3>Coverage Area Requirements</h3>
+<p>Each sprinkler must cover a specified floor area depending on the hazard class. NFPA 13 limits the maximum coverage area per head:</p>
+<ul>
+  <li>Light Hazard: up to 225 ft² per head</li>
+  <li>Ordinary Hazard: up to 130 ft² per head</li>
+  <li>Extra Hazard: up to 100 ft² per head</li>
+</ul>
+<p>The minimum operating pressure at any sprinkler is typically 7 psi, which ensures proper spray pattern development.</p>
+
+<!-- 5. Pipe Sizing -->
+<h2 id="pipe-sizing">5. Pipe Sizing</h2>
+
+<h3>Schedule 40 Steel — Internal Diameters</h3>
+<p>Fire sprinkler systems most commonly use Schedule 40 black steel pipe. The internal diameter (ID) determines friction loss:</p>
+
+<table>
+  <thead>
+    <tr><th>Nominal Size</th><th>Internal Diameter (in)</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>1″</td><td>1.049</td></tr>
+    <tr><td>1¼″</td><td>1.380</td></tr>
+    <tr><td>1½″</td><td>1.610</td></tr>
+    <tr><td>2″</td><td>2.067</td></tr>
+    <tr><td>2½″</td><td>2.469</td></tr>
+    <tr><td>3″</td><td>3.068</td></tr>
+    <tr><td>4″</td><td>4.026</td></tr>
+    <tr><td>6″</td><td>6.065</td></tr>
+  </tbody>
+</table>
+
+<h3>Velocity Limits</h3>
+<p>Pipe velocity is calculated as:</p>
+<div class="formula-box">
+  V = Q / (2.448 × d²) &nbsp; [ft/s]
+</div>
+<p>NFPA 13 does not set a hard velocity limit, but most engineers limit velocity to about <strong>20–32 ft/s</strong> to avoid excessive water hammer and noise. Velocities above 32 ft/s are generally considered unacceptable.</p>
+
+<h3>Equivalent Lengths for Fittings</h3>
+<p>Pipe fittings (elbows, tees, crosses) add friction loss equivalent to a straight length of pipe. NFPA 13 Table 23.4.3.1.1 provides these values. For example, a 1″ 90° elbow has an equivalent length of about 2.5 ft, while a 2″ tee (flow turned) is about 10 ft.</p>
+
+<!-- 6. Hydraulic Calculation Method -->
+<h2 id="hydraulic-calc">6. Hydraulic Calculation Method</h2>
+
+<p>SprinkFlow uses the <strong>tree system backward calculation</strong> method, which is the standard approach for tree-type (non-looped) sprinkler pipe networks.</p>
+
+<h3>How It Works</h3>
+<ol>
+  <li><strong>Start at the most remote sprinkler</strong> — Assign the minimum required pressure (from density × coverage area and the K-factor equation).</li>
+  <li><strong>Calculate flow</strong> — <code>Q = K × √P</code> gives the flow from the first head.</li>
+  <li><strong>Move toward the riser</strong> — At each pipe segment, accumulate:
+    <ul>
+      <li><strong>Friction loss:</strong> h<sub>f</sub> × (pipe length + equivalent lengths of fittings)</li>
+      <li><strong>Elevation change:</strong> ±0.433 psi per foot of elevation difference</li>
+    </ul>
+  </li>
+  <li><strong>Add branch flows</strong> — At each junction, add flow from connecting branches.</li>
+  <li><strong>Arrive at the riser</strong> — The total pressure required at the base of the riser is the <em>system demand pressure</em> at the calculated flow.</li>
+</ol>
+
+<h3>Elevation Pressure</h3>
+<div class="formula-box">
+  P<sub>elevation</sub> = 0.433 × h &nbsp; [psi]
+</div>
+<p>Where <strong>h</strong> is the elevation difference in feet. Water pressure increases by 0.433 psi for every foot of elevation drop, and decreases by 0.433 psi for every foot of elevation gain. Sprinklers above the riser require additional pressure; those below contribute pressure.</p>
+
+<!-- 7. Supply vs Demand -->
+<h2 id="supply-demand">7. Supply vs Demand</h2>
+
+<p>After calculating the system demand (total flow and pressure at the riser), the next step is verifying that the available water supply is adequate.</p>
+
+<h3>Flow Test Data</h3>
+<p>Water supply capability is determined by a fire flow test, which measures:</p>
+<ul>
+  <li><strong>Static pressure</strong> — The pressure when no water is flowing (psi)</li>
+  <li><strong>Residual pressure</strong> — The pressure measured while flowing water at a known rate (psi)</li>
+  <li><strong>Flow</strong> — The measured flow rate during the test (GPM)</li>
+</ul>
+
+<h3>Supply Curve Interpolation</h3>
+<p>The supply curve is plotted on a Q<sup>1.85</sup> vs. pressure graph. The available pressure at any flow rate is interpolated between the static (zero flow) and residual (test flow) points. This produces a smooth supply curve that can be compared to the system demand point.</p>
+
+<div class="info-card">
+  <p><strong>Adequate supply</strong> — The supply curve must lie above the demand point. The vertical distance between them represents the <em>safety margin</em>. Most designers aim for at least 5–10 psi of margin at the required flow.</p>
+</div>
+
+<!-- 8. Hose Stream Allowance -->
+<h2 id="hose-stream">8. Hose Stream Allowance</h2>
+
+<p>In addition to the sprinkler system demand, NFPA 13 requires an allowance for fire department hose streams. This water is used by firefighters while the sprinkler system is operating.</p>
+
+<table>
+  <thead>
+    <tr><th>Hazard Class</th><th>Hose Stream Allowance</th><th>Duration</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Light Hazard</td><td>100 GPM</td><td>30 minutes</td></tr>
+    <tr><td>Ordinary Hazard (OH-1, OH-2)</td><td>250 GPM</td><td>60–90 minutes</td></tr>
+    <tr><td>Extra Hazard (EH-1, EH-2)</td><td>500 GPM</td><td>90–120 minutes</td></tr>
+  </tbody>
+</table>
+
+<p>The hose stream flow is added to the sprinkler demand <em>at the same pressure</em>. This shifts the demand point to the right on the supply/demand graph. The water supply must be sufficient to provide both the sprinkler demand and hose streams for the required duration.</p>
+
+<!-- 9. How to Use SprinkFlow -->
+<h2 id="how-to-use">9. How to Use SprinkFlow</h2>
+
+<ol class="step-list">
+  <li><strong>Select hazard class</strong> — Choose the appropriate occupancy hazard classification from the toolbar dropdown. This sets the design density and area of operation.</li>
+  <li><strong>Build your pipe network</strong> — Drag sprinkler heads, junctions, and a riser from the stencil palette onto the canvas. Connect them with pipes by clicking source and target nodes.</li>
+  <li><strong>Set K-factors and elevations</strong> — Select each sprinkler head and configure its K-factor, coverage area, and elevation in the property panel.</li>
+  <li><strong>Assign pipe sizes</strong> — Select each pipe segment and set its nominal size, length, material (C-factor), and any fittings.</li>
+  <li><strong>Configure water supply</strong> — Add a Water Supply node and enter the flow test data (static pressure, residual pressure, flow).</li>
+  <li><strong>Calculate</strong> — Click the <strong>▶ Calculate</strong> button. SprinkFlow performs the backward hydraulic calculation and displays results as badges on each node and pipe.</li>
+  <li><strong>Check supply vs demand</strong> — Review the results summary. Verify that the supply curve exceeds the demand point with adequate safety margin.</li>
+  <li><strong>Print worksheet</strong> — Click <strong>📄 Worksheet</strong> to generate a printable hydraulic calculation report for submission or review.</li>
+</ol>
+
+<!-- 10. Glossary -->
+<h2 id="glossary">10. Glossary</h2>
+
+<dl>
+  <dt>K-Factor</dt>
+  <dd>Discharge coefficient of a sprinkler head. Relates flow to pressure via Q = K√P. Determined by the orifice size; standard heads have K = 5.6.</dd>
+
+  <dt>Friction Loss (h<sub>f</sub>)</dt>
+  <dd>Pressure drop per foot of pipe caused by water flowing through the pipe. Calculated using the Hazen-Williams equation. Increases with higher flow rates and smaller pipe diameters.</dd>
+
+  <dt>C-Factor</dt>
+  <dd>Hazen-Williams roughness coefficient representing pipe interior smoothness. Higher C-values mean less friction loss. Steel = 120, copper/CPVC = 150.</dd>
+
+  <dt>Hydraulic Radius</dt>
+  <dd>The ratio of the cross-sectional area of flow to the wetted perimeter. For a full circular pipe: R = d/4.</dd>
+
+  <dt>Static Pressure</dt>
+  <dd>Water pressure measured when no water is flowing. Represents the maximum available pressure from the supply.</dd>
+
+  <dt>Residual Pressure</dt>
+  <dd>Water pressure measured while water is flowing at a known rate during a flow test. The difference between static and residual pressure indicates how much pressure the supply loses under load.</dd>
+
+  <dt>Hose Stream Allowance</dt>
+  <dd>Additional water flow required by NFPA 13 for fire department use during a fire event. Added to the sprinkler demand when evaluating water supply adequacy.</dd>
+
+  <dt>Density/Area</dt>
+  <dd>Design method specifying the required water application rate (GPM/ft²) over a minimum area of sprinkler operation (ft²). The product gives the minimum flow demand in GPM.</dd>
+
+  <dt>Elevation Pressure</dt>
+  <dd>Pressure change due to height difference. Water pressure increases 0.433 psi per foot of elevation drop and decreases 0.433 psi per foot of elevation gain.</dd>
+
+  <dt>Design Area (Area of Operation)</dt>
+  <dd>The most hydraulically remote area that must be supplied simultaneously. All sprinklers within this area are assumed to operate during a fire.</dd>
+</dl>
+
+<!-- 11. References -->
+<h2 id="references">11. References</h2>
+
+<ul>
+  <li><strong>NFPA 13</strong> — <em>Standard for the Installation of Sprinkler Systems</em>, National Fire Protection Association. The governing standard for sprinkler design, pipe sizing, and hydraulic calculations.</li>
+  <li><strong>Canute LLP</strong> — Published worked examples for fire sprinkler hydraulic calculations. Used as validation data for SprinkFlow.</li>
+  <li><strong>SFPE Handbook of Fire Protection Engineering</strong> — Comprehensive reference for fire protection engineering principles including hydraulics and suppression system design.</li>
+  <li><strong>ANSI/ASME B36.10M</strong> — Standard for welded and seamless wrought steel pipe dimensions (Schedule 40 internal diameters).</li>
+  <li><strong>StudyLib</strong> — Published fire sprinkler calculation problems used for validation.</li>
+  <li><strong>NSVSoft</strong> — Hydraulic calculation worksheets for cross-reference.</li>
+  <li><strong>MEPBase</strong> — Online fire sprinkler calculator for comparison.</li>
+</ul>
+
+</div>
+
+<footer>
+  SprinkFlow is free, open-source software. All calculations run locally in your browser — no data is sent to any server.<br>
+  This guide is for educational purposes. Always consult NFPA 13 and a licensed fire protection engineer for real-world designs.
+</footer>
+
+</body>
+</html>

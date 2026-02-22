@@ -1,0 +1,13 @@
+{
+  "name": "sprinkflow-calc",
+  "private": true,
+  "scripts": {
+    "build": "pnpm -r build",
+    "test": "pnpm -r test",
+    "test:e2e": "npx playwright test",
+    "dev": "pnpm --filter web dev"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.58.2"
+  }
+}
