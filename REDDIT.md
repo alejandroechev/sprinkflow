@@ -8,7 +8,7 @@
 
 **Body:**
 
-Hey fire protection folks — I built SprinkFlow, a free web-based tool for sprinkler hydraulic calculations. It handles Hazen-Williams friction loss, sprinkler discharge (Q = K√P), elevation adjustments, and tree system backward calculations from remote heads to the riser.
+I built SprinkFlow, a free web-based tool for sprinkler hydraulic calculations. It handles Hazen-Williams friction loss, sprinkler discharge (Q = K√P), elevation adjustments, and tree system backward calculations from remote heads to the riser.
 
 You build the piping layout visually, assign K-factors and pipe schedules, and it solves the hydraulics. Includes Schedule 40 steel pipe data, C-factors, and fitting equivalent lengths per NFPA 13.
 
@@ -48,7 +48,7 @@ What features would fire protection engineers need to actually adopt something l
 
 Built a free browser-based fire sprinkler hydraulic calculator for MEP engineers. Visual tree layout, automatic backward hydraulic calculation, Schedule 40 pipe data, and NFPA 13 fitting equivalent lengths.
 
-Tired of paying thousands for desktop software that looks like it was built in 2003. This runs in any browser, no install needed.
+This runs in any browser with no install needed. I would love your feedback on what to improve.
 
 🔗 https://sprinkflow.vercel.app
 📂 https://github.com/alejandroechev/sprinkflow
