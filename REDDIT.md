@@ -23,7 +23,7 @@ Would love feedback from practicing fire protection engineers — what would mak
 
 ## Post 2: r/civilengineering
 
-**Title:** Free browser-based fire sprinkler hydraulic calculator — no more $3K/yr software licenses
+**Title:** Free browser-based fire sprinkler hydraulic calculator
 
 **Body:**
 
@@ -54,3 +54,4 @@ This runs in any browser with no install needed. I would love your feedback on w
 📂 https://github.com/alejandroechev/sprinkflow
 
 Looking for feedback from people who actually do sprinkler calcs — what's missing?
+
