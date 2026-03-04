@@ -11,11 +11,9 @@ import {
 } from "@sprinkler/engine";
 import { openCalcWorksheet } from "../panels/CalcWorksheet";
 import { sampleProjects } from "../../samples";
-import { FeedbackModal } from "../FeedbackModal";
 
 export function Toolbar() {
-  const [showFeedback, setShowFeedback] = useState(false);
-  const project = useEditorStore((s) => s.project);
+  const project =useEditorStore((s) => s.project);
   const setProject = useEditorStore((s) => s.setProject);
   const setResult = useEditorStore((s) => s.setResult);
   const result = useEditorStore((s) => s.result);
@@ -176,14 +174,13 @@ export function Toolbar() {
 
       <div style={{ marginLeft: "auto" }} />
       <button onClick={() => window.open('/intro.html', '_blank')} title="Open fire sprinkler hydraulics guide">📖 Guide</button>
-      <button onClick={() => setShowFeedback(true)} title="Send feedback">💬 Feedback</button>
+      <a href="https://github.com/alejandroechev/sprinkflow/issues" target="_blank" rel="noopener noreferrer" className="github-link">💬 Feedback</a>
       <a className="github-link" href="https://github.com/alejandroechev/SprinkFlow" target="_blank" rel="noopener noreferrer">GitHub</a>
       <button className="theme-toggle" onClick={toggleTheme} title={`Switch to ${theme === "light" ? "dark" : "light"} mode`}>
         {theme === "light" ? "🌙" : "☀️"}
       </button>
 
       <input ref={fileInputRef} type="file" accept=".json" style={{ display: "none" }} onChange={onFileChange} />
-      {showFeedback && <FeedbackModal product="SprinkFlow" onClose={() => setShowFeedback(false)} />}
     </div>
   );
 }
